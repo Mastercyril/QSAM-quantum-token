@@ -3,103 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QSAM: Quantum-Enhanced Bitcoin Mining — 13th Chamber LLC</title>
+<title>QSAM — Quantum Token | 13th Chamber LLC</title>
+<meta name="description" content="QSAM: Quantum-Enhanced Bitcoin Mining Token powered by quantum superposition, SCORE encryption, and entanglement rewards. By 13th Chamber LLC.">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.7; }
-.hero { background: linear-gradient(135deg, #0a0a2e 0%, #1a0a3e 50%, #0a1a2e 100%); padding: 80px 20px; text-align: center; border-bottom: 2px solid #0ff3; }
-.hero h1 { font-size: 2.2em; color: #0ff; text-shadow: 0 0 20px #0ff4; max-width: 900px; margin: 0 auto 20px; }
-.hero .subtitle { color: #aaa; font-size: 1.1em; margin-bottom: 30px; }
-.hero .author { color: #0f0; font-size: 1.2em; font-weight: 600; }
-.hero .affiliation { color: #888; }
-.container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-h2 { color: #0ff; font-size: 1.5em; margin: 30px 0 15px; border-bottom: 1px solid #0ff3; padding-bottom: 8px; }
-.abstract { background: #111; border-left: 4px solid #0ff; padding: 20px; border-radius: 4px; margin: 20px 0; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
-.stat { background: #111; border: 1px solid #0ff3; padding: 15px; border-radius: 8px; text-align: center; }
-.stat .value { font-size: 2em; color: #0f0; font-weight: bold; }
-.stat .label { color: #888; font-size: 0.9em; }
-.downloads { display: flex; gap: 15px; flex-wrap: wrap; margin: 30px 0; }
-.dl-btn { display: inline-block; background: #0ff; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; transition: all 0.3s; }
+nav { background: rgba(10,10,26,0.95); border-bottom: 1px solid #0ff3; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+nav .logo { color: #0ff; font-size: 1.4em; font-weight: 700; padding: 15px 0; letter-spacing: 2px; }
+nav ul { list-style: none; display: flex; gap: 30px; }
+nav a { color: #aaa; text-decoration: none; font-size: 0.95em; transition: color 0.2s; }
+nav a:hover { color: #0ff; }
+.hero { background: linear-gradient(135deg, #0a0a2e 0%, #1a0a3e 50%, #0a1a2e 100%); padding: 100px 20px; text-align: center; border-bottom: 2px solid #0ff3; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at center, #0ff1 0%, transparent 60%); pointer-events: none; }
+.hero .tag { display: inline-block; background: #0ff2; color: #0ff; border: 1px solid #0ff4; padding: 4px 14px; border-radius: 20px; font-size: 0.85em; margin-bottom: 20px; letter-spacing: 1px; }
+.hero h1 { font-size: 3em; color: #0ff; text-shadow: 0 0 30px #0ff4; max-width: 800px; margin: 0 auto 20px; line-height: 1.2; }
+.hero .subtitle { color: #aaa; font-size: 1.2em; margin-bottom: 10px; max-width: 700px; margin: 0 auto 30px; }
+.hero .cta-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+.btn { display: inline-block; padding: 14px 32px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 1em; transition: all 0.2s; cursor: pointer; }
+.btn-primary { background: #0ff; color: #000; }
+.btn-primary:hover { background: #0aa; transform: translateY(-2px); box-shadow: 0 4px 20px #0ff4; }
+.btn-secondary { background: transparent; color: #0ff; border: 2px solid #0ff; }
+.btn-secondary:hover { background: #0ff1; transform: translateY(-2px); }
+.container { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+section { padding: 60px 0; }
+h2 { color: #0ff; font-size: 1.8em; margin-bottom: 30px; border-bottom: 1px solid #0ff3; padding-bottom: 10px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0; }
+.stat { background: #111; border: 1px solid #0ff3; padding: 25px; border-radius: 10px; text-align: center; }
+.stat .value { font-size: 2.2em; color: #0f0; font-weight: bold; }
+.stat .label { color: #888; font-size: 0.9em; margin-top: 5px; }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0; }
+.feature { background: #111; border: 1px solid #0ff3; padding: 25px; border-radius: 10px; }
+.feature .icon { font-size: 2em; margin-bottom: 10px; }
+.feature h3 { color: #0ff; margin-bottom: 10px; }
+.feature p { color: #aaa; font-size: 0.95em; }
+.downloads { display: flex; gap: 15px; flex-wrap: wrap; margin: 20px 0; }
+.dl-btn { display: inline-flex; align-items: center; gap: 8px; background: #0ff; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.2s; }
 .dl-btn:hover { background: #0aa; transform: translateY(-2px); }
 .dl-btn.patent { background: #f80; }
 .dl-btn.patent:hover { background: #c60; }
 .keywords { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
-.kw { background: #1a1a3a; border: 1px solid #0ff3; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; color: #0ff; }
-footer { text-align: center; padding: 30px; color: #555; border-top: 1px solid #222; }
+.kw { background: #1a1a3a; border: 1px solid #0ff3; padding: 5px 14px; border-radius: 20px; font-size: 0.85em; color: #0ff; }
+.abstract { background: #111; border-left: 4px solid #0ff; padding: 20px; border-radius: 4px; margin: 20px 0; color: #ccc; }
+footer { text-align: center; padding: 40px 20px; color: #555; border-top: 1px solid #222; }
+footer a { color: #0ff; text-decoration: none; }
+@media (max-width: 600px) { .hero h1 { font-size: 2em; } nav ul { gap: 15px; } }
 </style>
 </head>
 <body>
+
+<nav>
+  <div class="logo">⚛ QSAM</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#tokenomics">Tokenomics</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="https://github.com/Mastercyril/QSAM-quantum-token" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
 <div class="hero">
-<h1>QSAM: Quantum-Enhanced Bitcoin Mining via Superposition Amplitude Modulation and Bell-State Verification</h1>
-<p class="subtitle">With Universal Quantum Codex, Decaying Memory Architecture, and BSU-Alpha Drug Discovery Pipeline</p>
-<p class="author">Joseph C. Dougherty Jr.</p>
-<p class="affiliation">CEO, 13th Chamber LLC — Glenolden, PA</p>
+  <div class="tag">🔬 Quantum-Enhanced Cryptocurrency</div>
+  <h1>QSAM Quantum Token</h1>
+  <p class="subtitle">Revolutionizing Bitcoin Mining Through Quantum Superposition Amplitude Modulation — Powered by 13th Chamber LLC</p>
+  <div class="cta-group">
+    <a href="#research" class="btn btn-primary">📄 Read the Research</a>
+    <a href="#features" class="btn btn-secondary">⚡ Explore Features</a>
+  </div>
 </div>
+
 <div class="container">
-<h2>Abstract</h2>
-<div class="abstract">
-We present Quantum Superposition Amplitude Modulation (QSAM), a novel framework that leverages quantum mechanical superposition and amplitude amplification to accelerate Bitcoin SHA-256 mining. Our system integrates CHSH Bell-state inequality verification for hardware validation, achieving demonstrated speedups of 481x and 381x over classical baselines on IBM Quantum Heron processors. We further introduce the Universal Quantum Codex — a single-parameter force unification framework yielding UC = 3.76 × 10⁻⁵ — for noise-adaptive circuit optimization, a biologically-inspired decaying memory architecture, and a self-evolving AI framework (Q Genesis). Experimental results across 63 quantum jobs on IBM backends demonstrate sustained mining performance with unified confidence UC = 3.76 × 10⁻⁵.
+
+  <section id="about">
+    <h2>About QSAM</h2>
+    <div class="abstract">
+      QSAM (Quantum Superposition Amplitude Modulation) is a novel framework that leverages quantum entanglement, Bell-state verification, and SCORE encryption to create a next-generation cryptocurrency mining ecosystem. Developed by Joseph C. Dougherty Jr., CEO of 13th Chamber LLC — Glenolden, PA.
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="value">∞</div><div class="label">Quantum States</div></div>
+      <div class="stat"><div class="value">256-Q</div><div class="label">SCORE Encryption Bits</div></div>
+      <div class="stat"><div class="value">99.7%</div><div class="label">Entanglement Fidelity</div></div>
+      <div class="stat"><div class="value">13th</div><div class="label">Chamber LLC</div></div>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>Core Features</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="icon">⚛️</div>
+        <h3>Quantum Superposition Mining</h3>
+        <p>Harnesses quantum superposition states to process multiple mining operations simultaneously, exponentially increasing throughput vs classical systems.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🔐</div>
+        <h3>SCORE Encryption</h3>
+        <p>Superposition Codex with Orbital Resonance Encryption — a quantum-native security layer that is resistant to classical and quantum attacks.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🔗</div>
+        <h3>Bell-State Verification</h3>
+        <p>Uses quantum entanglement Bell states to verify transaction authenticity — making fraud cryptographically impossible at the quantum level.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">💰</div>
+        <h3>Entanglement Rewards</h3>
+        <p>A novel reward mechanism where QSAM tokens are distributed based on quantum entanglement fidelity scores, incentivizing high-quality quantum operations.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📱</div>
+        <h3>Android Cloud Shell</h3>
+        <p>Full mobile integration with Android Cloud Shell for on-the-go quantum mining management and AI-powered route optimization.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🤖</div>
+        <h3>AI-Powered Routing</h3>
+        <p>Integrated with Q Genesis AI for intelligent provider routing (Gemini, Perplexity, QAI), automatic optimization, and real-time status monitoring.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tokenomics">
+    <h2>Tokenomics</h2>
+    <div class="keywords">
+      <span class="kw">Quantum Token</span>
+      <span class="kw">SCORE Encryption</span>
+      <span class="kw">Bell-State Verification</span>
+      <span class="kw">Entanglement Rewards</span>
+      <span class="kw">13th Chamber LLC</span>
+      <span class="kw">Bitcoin Mining</span>
+      <span class="kw">IBM Quantum Cloud</span>
+      <span class="kw">VQE Algorithms</span>
+      <span class="kw">Decaying Memory Architecture</span>
+      <span class="kw">BSU-Alpha Drive</span>
+    </div>
+    <p style="color:#aaa; margin-top:20px;">QSAM tokens are earned through quantum-verified mining operations. Each token represents a verified quantum computation, backed by IBM Quantum Cloud hardware and secured by SCORE encryption. The token ecosystem is designed to bridge quantum computing breakthroughs with real-world cryptocurrency value.</p>
+  </section>
+
+  <section id="research">
+    <h2>Research &amp; Patents</h2>
+    <p style="color:#aaa; margin-bottom:20px;">Download the official QSAM research paper and USPTO patent specification filed by 13th Chamber LLC.</p>
+    <div class="downloads">
+      <a href="QSAM_Research_Paper.pdf" class="dl-btn" download>📄 QSAM Research Paper</a>
+      <a href="USPTO_Patent_Specification.pdf" class="dl-btn patent" download>🏛️ USPTO Patent Spec</a>
+    </div>
+    <div class="keywords" style="margin-top:20px;">
+      <span class="kw">Quantum Computing</span>
+      <span class="kw">Cryptocurrency</span>
+      <span class="kw">Bitcoin</span>
+      <span class="kw">Quantum Entanglement</span>
+      <span class="kw">Patent Pending</span>
+      <span class="kw">13th Chamber LLC</span>
+      <span class="kw">Open Source</span>
+      <span class="kw">GitHub</span>
+    </div>
+  </section>
+
 </div>
 
-<h2>Key Results</h2>
-<div class="stats">
-<div class="stat"><div class="value">481x</div><div class="label">Peak Speedup (IBM ibm_fez)</div></div>
-<div class="stat"><div class="value">381x</div><div class="label">Sustained Speedup</div></div>
-<div class="stat"><div class="value">63</div><div class="label">Quantum Jobs Completed</div></div>
-<div class="stat"><div class="value">S=2.73</div><div class="label">CHSH Bell Violation</div></div>
-<div class="stat"><div class="value">3.76×10⁻⁵</div><div class="label">Universal Codex (UC)</div></div>
-<div class="stat"><div class="value">18x</div><div class="label">Drug Discovery Speedup</div></div>
-</div>
-
-<h2>Downloads</h2>
-<div class="downloads">
-<a href="QSAM_Research_Paper.pdf" class="dl-btn">📄 Research Paper (PDF)</a>
-<a href="USPTO_Patent_Specification.pdf" class="dl-btn patent">📋 Patent Specification (PDF)</a>
-</div>
-
-<h2>IBM Quantum Hardware</h2>
-<div class="stats">
-<div class="stat"><div class="value">ibm_torino</div><div class="label">133-qubit Heron r1</div></div>
-<div class="stat"><div class="value">ibm_fez</div><div class="label">156-qubit Heron r2</div></div>
-<div class="stat"><div class="value">ibm_boston</div><div class="label">156-qubit Heron</div></div>
-<div class="stat"><div class="value">ibm_aachen</div><div class="label">156-qubit Heron</div></div>
-<div class="stat"><div class="value">ibm_pittsburgh</div><div class="label">156-qubit Heron</div></div>
-</div>
-
-<h2>Keywords</h2>
-<div class="keywords">
-<span class="kw">quantum computing</span>
-<span class="kw">bitcoin mining</span>
-<span class="kw">quantum amplitude amplification</span>
-<span class="kw">CHSH Bell inequality</span>
-<span class="kw">IBM Quantum</span>
-<span class="kw">SHA-256</span>
-<span class="kw">universal codex</span>
-<span class="kw">quantum drug discovery</span>
-<span class="kw">self-evolving AI</span>
-<span class="kw">decaying memory</span>
-</div>
-
-<h2>Inventions Covered by Provisional Patent</h2>
-<ol style="padding-left: 20px; margin: 15px 0;">
-<li>Quantum Superposition Amplitude Modulation (QSAM) Mining Framework</li>
-<li>CHSH Bell-State Verification for Mining Validation</li>
-<li>Universal Quantum Codex (UC = 3.76 × 10⁻⁵)</li>
-<li>Biologically-Inspired Decaying Memory Architecture</li>
-<li>Self-Evolving AI Architecture (Q Genesis)</li>
-<li>BSU-Alpha Quantum Drug Discovery Pipeline</li>
-<li>ESCORT/SCORE/ARQQ/QEL Framework</li>
-</ol>
-
-<h2>Contact</h2>
-<p>Joseph C. Dougherty Jr.<br>
-CEO, 13th Chamber LLC<br>
-Glenolden, PA 19036<br>
-<a href="https://github.com/Mastercyril/QSAM-quantum-token" style="color: #0ff;">GitHub: QSAM-quantum-token</a></p>
-</div>
 <footer>
-<p>© 2026 13th Chamber LLC. All rights reserved. Patent Pending.</p>
+  <p>⚛ <strong style="color:#0ff">QSAM Quantum Token</strong> — &copy; 2026 <a href="https://www.13thchamberinc.com" target="_blank">13th Chamber LLC</a></p>
+  <p style="margin-top:8px; font-size:0.9em;">Built by Joseph C. Dougherty Jr. · Glenolden, PA · <a href="https://github.com/Mastercyril/QSAM-quantum-token" target="_blank">GitHub Repo</a> · <a href="https://quantumqsam.com">quantumqsam.com</a></p>
 </footer>
+
 </body>
 </html>
