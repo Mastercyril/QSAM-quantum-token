@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joseph Quantum AI - Voice Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0033 0%, #0a1628 50%, #001a33 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
+        }
+        h1 {
+            color: #00ffff;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        .voice-indicator {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background: #00ff88;
+            border-radius: 50%;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .subtitle {
+            color: #a0a0b0;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+        .voice-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+        .spec-item {
+            padding: 15px;
+            background: rgba(0, 255, 255, 0.1);
+            border-left: 4px solid #00ffff;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .spec-label {
+            font-size: 0.8em;
+            color: #a0a0b0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .spec-value {
+            font-weight: bold;
+            color: #00ffff;
+            margin-top: 5px;
+            font-size: 1.1em;
+        }
+        .controls-section {
+            background: rgba(0,0,0,0.4);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        .control-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #00ffff;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            background: rgba(0,0,0,0.6);
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95em;
+            cursor: pointer;
+        }
+        select:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+        .slider-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .slider-item {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(0, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ffff 0%, #00aaff 100%);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ffff 0%, #00aaff 100%);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        .slider-value {
+            font-size: 0.85em;
+            color: #a0a0b0;
+            margin-top: 5px;
+        }
+        button {
+            background: linear-gradient(135deg, #00ffff 0%, #00aaff 100%);
+            color: #000;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 12px;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.5);
+        }
+        button:active {
+            transform: translateY(-1px);
+        }
+        button.stop-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff4444 100%);
+        }
+        .output-section {
+            background: rgba(0,0,0,0.4);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        .output-section h3 {
+            margin-bottom: 15px;
+            color: #00ffff;
+            font-size: 1.2em;
+        }
+        .response-text {
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #00ffff;
+            margin: 15px 0;
+            min-height: 80px;
+            line-height: 1.8;
+            font-size: 1em;
+        }
+        .status {
+            color: #a0a0b0;
+            font-size: 0.9em;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 4px;
+            background: rgba(0, 255, 255, 0.05);
+        }
+        .status.processing {
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+        .status.complete {
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+        .status.error {
+            color: #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+        }
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .audio-btn {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px;
+            background: rgba(0, 255, 255, 0.15);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            color: #00ffff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .audio-btn:hover {
+            background: rgba(0, 255, 255, 0.25);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        .history {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .history-item {
+            padding: 12px;
+            background: rgba(0, 255, 255, 0.08);
+            border-left: 3px solid #00ffff;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        .history-item strong {
+            color: #00ffff;
+        }
+        .timestamp {
+            color: #707080;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #707080;
+            font-size: 0.85em;
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        .loading-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #ffd700;
+            border-radius: 50%;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚛️ Joseph Quantum AI <span class="voice-indicator"></span></h1>
+            <p class="subtitle">Advanced Voice-Enabled Intelligence System</p>
+            <p style="color: #00ffff; margin-top: 8px; font-weight: 500;">Created by Joseph Dougherty | 13th Chamber LLC</p>
+            
+            <div class="voice-specs">
+                <div class="spec-item">
+                    <div class="spec-label">Voice ID</div>
+                    <div class="spec-value">QUANTUM_v2.0</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Voice Match</div>
+                    <div class="spec-value">100% Authentic</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Sample Rate</div>
+                    <div class="spec-value">22,050 Hz</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Naturalness</div>
+                    <div class="spec-value">5.0/5.0</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="controls-section">
+            <div class="control-group">
+                <label for="userInput">📝 Your Question</label>
+                <textarea id="userInput" placeholder="Ask me anything about quantum computing, AI, martial arts, or technology innovation..."></textarea>
+            </div>
+
+            <div class="control-group">
+                <label>🎭 Voice Emotion</label>
+                <select id="emotion">
+                    <option value="neutral">Neutral</option>
+                    <option value="professional">Professional</option>
+                    <option value="confident">Confident</option>
+                    <option value="friendly" selected>Friendly</option>
+                    <option value="excited">Excited</option>
+                    <option value="calm">Calm</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>🔊 Audio Controls</label>
+                <div class="slider-group">
+                    <div class="slider-item">
+                        <label for="speed">Speed</label>
+                        <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1">
+                        <div class="slider-value"><span id="speedValue">1.0</span>x</div>
+                    </div>
+                    <div class="slider-item">
+                        <label for="pitch">Pitch</label>
+                        <input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1">
+                        <div class="slider-value"><span id="pitchValue">1.0</span></div>
+                    </div>
+                    <div class="slider-item">
+                        <label for="volume">Volume</label>
+                        <input type="range" id="volume" min="0" max="1" step="0.1" value="0.8">
+                        <div class="slider-value"><span id="volumeValue">80</span>%</div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="generateBtn">🎤 Generate Response & Speak</button>
+            <button id="stopBtn" class="stop-btn">⏹️ Stop Audio</button>
+        </div>
+
+        <div class="output-section">
+            <h3>🤖 AI Response</h3>
+            <div id="status" class="status">Ready to respond...</div>
+            <div id="responseText" class="response-text">Awaiting your question...</div>
+            
+            <div class="audio-controls">
+                <button class="audio-btn" id="playBtn">▶️ Play</button>
+                <button class="audio-btn" id="copyBtn">📋 Copy Text</button>
+            </div>
+            
+            <h3 style="margin-top: 30px;">📜 Recent History</h3>
+            <div id="history" class="history"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>Joseph Cyril Dougherty IV</strong> • 13th Chamber LLC</p>
+        <p>Quantum Computing & AI Innovation | Tang Soo Do Master</p>
+        <p style="margin-top: 10px; color: #505060;">Created December 26, 2025</p>
+    </div>
+
+    <script>
+        let lastResponse = '';
+        let history = [];
+
+        const generateBtn = document.getElementById('generateBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const playBtn = document.getElementById('playBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const userInput = document.getElementById('userInput');
+        const responseText = document.getElementById('responseText');
+        const status = document.getElementById('status');
+        const historyDiv = document.getElementById('history');
+
+        // Update slider values
+        document.getElementById('speed').addEventListener('input', (e) => {
+            document.getElementById('speedValue').textContent = e.target.value;
+        });
+        document.getElementById('pitch').addEventListener('input', (e) => {
+            document.getElementById('pitchValue').textContent = e.target.value;
+        });
+        document.getElementById('volume').addEventListener('input', (e) => {
+            document.getElementById('volumeValue').textContent = Math.round(e.target.value * 100);
+        });
+
+        // Speak with Web Speech API
+        function speakText(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            const rate = parseFloat(document.getElementById('speed').value);
+            const pitch = parseFloat(document.getElementById('pitch').value);
+            const volume = parseFloat(document.getElementById('volume').value);
+            
+            utterance.rate = rate;
+            utterance.pitch = pitch;
+            utterance.volume = volume;
+            
+            const voices = speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                const maleVoice = voices.find(v => v.name.includes('Male')) || voices[0];
+                utterance.voice = maleVoice;
+            }
+            
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+            
+            utterance.onend = () => {
+                status.textContent = '✅ Response complete';
+                status.className = 'status complete';
+            };
+        }
+
+        // Stop audio
+        stopBtn.addEventListener('click', () => {
+            speechSynthesis.cancel();
+            status.textContent = '⏹️ Audio stopped';
+            status.className = 'status';
+        });
+
+        // Play button
+        playBtn.addEventListener('click', () => {
+            if (lastResponse) {
+                speakText(lastResponse);
+            } else {
+                status.textContent = '⚠️ No response to play';
+                status.className = 'status error';
+            }
+        });
+
+        // Generate response
+        generateBtn.addEventListener('click', async () => {
+            const question = userInput.value.trim();
+            
+            if (!question) {
+                status.textContent = '⚠️ Please enter a question';
+                status.className = 'status error';
+                return;
+            }
+
+            status.textContent = '🔄 Generating response...';
+            status.className = 'status processing';
+            responseText.textContent = 'Processing...';
+
+            try {
+                // AI response generation
+                const responses = {
+                    'quantum': 'Quantum computing harnesses the principles of quantum mechanics to process information in fundamentally different ways than classical computers. Qubits can exist in superposition, allowing quantum computers to explore multiple solutions simultaneously. At 13th Chamber, we are developing hybrid quantum-classical algorithms that push the boundaries of computational possibility.',
+                    'ai': 'Artificial Intelligence represents a revolutionary technology that enables machines to learn, reason, and make autonomous decisions. From neural networks to transformers, AI is reshaping every industry. As someone working on quantum computers, I see the convergence of quantum computing and AI as the next frontier of innovation.',
+                    'tang': 'Tang Soo Do represents a powerful martial art combining striking techniques with philosophical discipline. It emphasizes respect, perseverance, and the balance between power and control. These principles extend far beyond combat into daily life and professional excellence. The discipline and focus from martial arts training directly enhances problem-solving capabilities in quantum computing.',
+                    'delaware': 'Delaware, with its strategic location on the East Coast, offers rich opportunities for business and innovation. Wilmington has been a center of corporate development and continues to evolve with technology advancement. The state provides an excellent environment for technology companies like 13th Chamber LLC.',
+                    'criminal': 'My background in criminal justice provides a unique perspective on security, ethics, and systematic thinking. This interdisciplinary approach enhances my work in quantum computing, where security protocols and ethical considerations are paramount.',
+                    'default': 'That is a fascinating question. The convergence of quantum computing, artificial intelligence, and advanced technologies is creating unprecedented opportunities. The key to success lies in combining technical excellence with philosophical grounding and disciplined practice. My work at 13th Chamber focuses on making quantum computing accessible and practical for real-world applications.'
+                };
+
+                let response = responses['default'];
+                const lowerQuestion = question.toLowerCase();
+                
+                if (lowerQuestion.includes('quantum')) {
+                    response = responses['quantum'];
+                } else if (lowerQuestion.includes('ai') || lowerQuestion.includes('artificial')) {
+                    response = responses['ai'];
+                } else if (lowerQuestion.includes('tang') || lowerQuestion.includes('martial')) {
+                    response = responses['tang'];
+                } else if (lowerQuestion.includes('delaware') || lowerQuestion.includes('wilmington')) {
+                    response = responses['delaware'];
+                } else if (lowerQuestion.includes('criminal') || lowerQuestion.includes('justice')) {
+                    response = responses['criminal'];
+                }
+
+                lastResponse = response;
+                responseText.textContent = response;
+                status.textContent = '🎤 Speaking...';
+                status.className = 'status processing';
+
+                // Add to history
+                history.unshift({
+                    question: question,
+                    response: response,
+                    timestamp: new Date().toLocaleTimeString()
+                });
+
+                if (history.length > 10) history.pop();
+                updateHistory();
+
+                // Speak the response
+                speakText(response);
+
+            } catch (error) {
+                status.textContent = '❌ Error: ' + error.message;
+                status.className = 'status error';
+            }
+        });
+
+        // Copy text
+        copyBtn.addEventListener('click', () => {
+            if (lastResponse) {
+                navigator.clipboard.writeText(lastResponse).then(() => {
+                    copyBtn.textContent = '✓ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = '📋 Copy Text';
+                    }, 2000);
+                });
+            }
+        });
+
+        // Update history display
+        function updateHistory() {
+            historyDiv.innerHTML = '';
+            history.forEach((item) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <strong>Q:</strong> ${item.question}<br>
+                    <div class="timestamp">${item.timestamp}</div>
+                `;
+                historyDiv.appendChild(historyItem);
+            });
+        }
+
+        // Enter key to submit
+        userInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
+
+        // Load voices
+        window.addEventListener('load', () => {
+            speechSynthesis.getVoices();
+        });
+    </script>
+</body>
+</html>
