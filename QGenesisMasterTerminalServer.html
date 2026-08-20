@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QGenesis Master Terminal Server</title>
+  <meta name="description" content="QGenesis Master Terminal Server interface for orchestrating quantum, AI, and system modules through a unified terminal dashboard." />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=jet-brains-mono@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem;
+      --color-bg: #f7f6f2; --color-surface: #f9f8f5; --color-surface-2: #fbfbf9; --color-surface-offset: #f3f0ec; --color-surface-offset-2: #edeae5; --color-surface-dynamic: #e6e4df;
+      --color-divider: #dcd9d5; --color-border: #d4d1ca; --color-text: #28251d; --color-text-muted: #7a7974; --color-text-faint: #bab9b4; --color-text-inverse: #f9f8f4;
+      --color-primary: #01696f; --color-primary-hover: #0c4e54; --color-primary-active: #0f3638; --color-primary-highlight: #cedcd8;
+      --color-success: #437a22; --color-warning: #964219; --color-error: #a12c7b; --color-blue: #006494; --color-purple: #7a39bb;
+      --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-xl: 1rem; --radius-full: 9999px;
+      --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      --shadow-sm: 0 1px 2px oklch(0.2 0.01 80 / 0.06); --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08); --shadow-lg: 0 12px 32px oklch(0.2 0.01 80 / 0.12);
+      --font-body: 'Satoshi', 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SFMono-Regular', monospace;
+    }
+    [data-theme="dark"] {
+      --color-bg: #0b1113; --color-surface: #10181b; --color-surface-2: #132025; --color-surface-offset: #17262b; --color-surface-offset-2: #1b2d33; --color-surface-dynamic: #213840;
+      --color-divider: #1d3138; --color-border: #29434c; --color-text: #d8e4e4; --color-text-muted: #8ea5a5; --color-text-faint: #597172; --color-text-inverse: #081011;
+      --color-primary: #53d2c8; --color-primary-hover: #78e0d8; --color-primary-active: #35bbb0; --color-primary-highlight: rgba(83, 210, 200, 0.14);
+      --color-success: #7fd36b; --color-warning: #f2ac55; --color-error: #d96aa8; --color-blue: #68a8ff; --color-purple: #ae83ff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.28); --shadow-md: 0 8px 24px rgba(0,0,0,.32); --shadow-lg: 0 20px 48px rgba(0,0,0,.4);
+    }
+    *,:before,:after{box-sizing:border-box;margin:0;padding:0}
+    html{-moz-text-size-adjust:none;-webkit-text-size-adjust:none;text-size-adjust:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+    body{min-height:100dvh;line-height:1.6;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:radial-gradient(circle at top right, rgba(83,210,200,.10), transparent 24%), linear-gradient(180deg, #091012 0%, var(--color-bg) 100%)}
+    img,svg{display:block;max-width:100%;height:auto} button,input,textarea,select{font:inherit;color:inherit} button{cursor:pointer;background:none;border:none} a{color:inherit;text-decoration:none}
+    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+    .shell{display:grid;grid-template-columns:290px 1fr;grid-template-rows:auto 1fr;height:100dvh;overflow:hidden}
+    .sidebar{grid-row:1/-1;background:linear-gradient(180deg, rgba(16,24,27,.98), rgba(11,17,19,.95));border-right:1px solid rgba(216,228,228,.10);padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-6);overflow-y:auto;overscroll-behavior:contain}
+    .logo-wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+    .logo{display:flex;align-items:center;gap:var(--space-4)}
+    .logo-mark{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg, rgba(83,210,200,.18), rgba(104,168,255,.12));display:grid;place-items:center;border:1px solid rgba(83,210,200,.24);box-shadow:var(--shadow-sm)}
+    .logo-mark svg{width:28px;height:28px;color:var(--color-primary)}
+    .logo-copy h1{font-size:var(--text-sm);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .logo-copy p{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .theme-btn,.nav-toggle{width:44px;height:44px;border-radius:var(--radius-md);display:grid;place-items:center;background:var(--color-surface);border:1px solid rgba(216,228,228,.08)}
+    .panel{background:linear-gradient(180deg, rgba(19,32,37,.88), rgba(16,24,27,.88));border:1px solid rgba(216,228,228,.08);border-radius:var(--radius-xl);box-shadow:var(--shadow-md)}
+    .status-cluster{padding:var(--space-4);display:grid;gap:var(--space-4)}
+    .status-row{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4)}
+    .status-row strong{font-family:var(--font-mono);font-size:var(--text-sm)}
+    .pill{display:inline-flex;align-items:center;gap:var(--space-2);padding:.45rem .7rem;border-radius:var(--radius-full);font-size:var(--text-xs);letter-spacing:.06em;text-transform:uppercase;background:rgba(83,210,200,.12);color:var(--color-primary);border:1px solid rgba(83,210,200,.24)}
+    .dot{width:8px;height:8px;border-radius:999px;background:currentColor;box-shadow:0 0 0 4px color-mix(in oklab, currentColor 16%, transparent)}
+    nav{display:grid;gap:var(--space-2)}
+    .nav-section-title{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.09em;color:var(--color-text-faint);margin-bottom:var(--space-2)}
+    .nav-link{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding:.8rem .9rem;border-radius:var(--radius-lg);font-size:var(--text-sm);border:1px solid transparent;color:var(--color-text-muted);transition:background var(--transition-interactive),color var(--transition-interactive),border-color var(--transition-interactive),transform var(--transition-interactive)}
+    .nav-link:hover,.nav-link.active{background:rgba(83,210,200,.09);border-color:rgba(83,210,200,.18);color:var(--color-text);transform:translateX(2px)}
+    .nav-meta{font-family:var(--font-mono);font-size:11px;color:var(--color-text-faint)}
+    .sidebar-footer{margin-top:auto;padding:var(--space-4);display:grid;gap:var(--space-3)}
+    .cluster-title{font-size:var(--text-sm);font-weight:700}.cluster-copy{font-size:var(--text-xs);color:var(--color-text-muted);max-width:30ch}
+    .mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-3)}
+    .mini-card{padding:var(--space-3);border-radius:var(--radius-lg);background:rgba(216,228,228,.03);border:1px solid rgba(216,228,228,.06)}
+    .mini-card span{display:block;font-size:var(--text-xs);color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.06em}.mini-card strong{display:block;font-family:var(--font-mono);font-size:var(--text-sm);margin-top:var(--space-2)}
+    .header{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);padding:var(--space-5) var(--space-6);border-bottom:1px solid rgba(216,228,228,.08);backdrop-filter:blur(16px);background:rgba(11,17,19,.72);position:sticky;top:0;z-index:30}
+    .header-title h2{font-size:var(--text-xl);font-weight:700;letter-spacing:-.02em}.header-title p{font-size:var(--text-sm);color:var(--color-text-muted);max-width:58ch}
+    .header-actions{display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap}
+    .search{display:flex;align-items:center;gap:var(--space-3);min-width:min(420px,100%);padding:.9rem 1rem;border-radius:var(--radius-lg);background:var(--color-surface);border:1px solid rgba(216,228,228,.08)}
+    .search input{background:transparent;border:none;outline:none;flex:1;font-size:var(--text-sm)}
+    .kbd{font-family:var(--font-mono);font-size:11px;color:var(--color-text-faint);padding:.2rem .45rem;border-radius:999px;border:1px solid rgba(216,228,228,.08);background:rgba(216,228,228,.04)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);padding:.82rem 1rem;border-radius:var(--radius-lg);font-size:var(--text-sm);font-weight:600;border:1px solid transparent;transition:all var(--transition-interactive);min-height:44px}
+    .btn-primary{background:var(--color-primary);color:#041112}.btn-primary:hover{background:var(--color-primary-hover)}
+    .btn-secondary{background:var(--color-surface);border-color:rgba(216,228,228,.08);color:var(--color-text)}.btn-secondary:hover{border-color:rgba(83,210,200,.26);background:var(--color-surface-2)}
+    .main{overflow-y:auto;overscroll-behavior:contain;padding:var(--space-6)}
+    .grid{display:grid;gap:var(--space-6)}
+    .hero{padding:var(--space-6);display:grid;grid-template-columns:1.35fr .95fr;gap:var(--space-6);align-items:stretch}
+    .hero-copy{display:grid;gap:var(--space-5)}
+    .eyebrow{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.12em;color:var(--color-primary)}
+    .hero-copy h3{font-size:var(--text-xl);line-height:1.05;max-width:16ch}
+    .hero-copy p{color:var(--color-text-muted);max-width:60ch}
+    .hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+    .metric{padding:var(--space-4);border-radius:var(--radius-lg);background:rgba(216,228,228,.03);border:1px solid rgba(216,228,228,.08)}
+    .metric span{font-size:var(--text-xs);color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.08em}.metric strong{display:block;margin-top:var(--space-2);font-family:var(--font-mono);font-size:var(--text-lg);font-variant-numeric:tabular-nums lining-nums}.metric em{font-style:normal;color:var(--color-success);font-size:var(--text-xs)}
+    .terminal{padding:var(--space-4);display:grid;grid-template-rows:auto 1fr auto;gap:var(--space-4);min-height:400px;background:linear-gradient(180deg, rgba(12,18,20,.95), rgba(8,12,14,.95));border-radius:var(--radius-xl);border:1px solid rgba(83,210,200,.16)}
+    .term-top{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4)}
+    .term-dots{display:flex;gap:var(--space-2)}
+    .term-dots i{width:11px;height:11px;border-radius:999px;background:rgba(216,228,228,.24)}.term-dots i:nth-child(1){background:#ff6b6b}.term-dots i:nth-child(2){background:#f2c14e}.term-dots i:nth-child(3){background:#54d78c}
+    .term-label{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.08em}
+    .log{overflow:auto;display:grid;gap:var(--space-3);font-family:var(--font-mono);font-size:13px;line-height:1.65;color:#b8d6d5;padding-right:var(--space-2)}
+    .log-line{display:grid;grid-template-columns:auto 1fr;gap:var(--space-3)}
+    .log-time{color:#60807f}.log-tag{color:var(--color-primary)}.log-warn{color:var(--color-warning)}.log-good{color:var(--color-success)}.log-blue{color:var(--color-blue)}
+    .prompt{display:flex;align-items:center;gap:var(--space-3);padding:.85rem 1rem;border-radius:var(--radius-lg);background:rgba(216,228,228,.03);border:1px solid rgba(83,210,200,.12)}
+    .prompt span{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--color-primary)}
+    .prompt input{flex:1;background:transparent;border:none;outline:none;font-family:var(--font-mono);font-size:var(--text-sm)}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:var(--space-4)}
+    .section-head h4{font-size:var(--text-lg)} .section-head p{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+    .card{padding:var(--space-5);display:grid;gap:var(--space-4)}
+    .card-top{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)}
+    .card h5{font-size:var(--text-base);font-weight:700}.card p{font-size:var(--text-sm);color:var(--color-text-muted);max-width:34ch}.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums lining-nums}
+    .bar{height:8px;border-radius:999px;background:rgba(216,228,228,.07);overflow:hidden}.bar > i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg, var(--color-primary), color-mix(in oklab, var(--color-blue) 35%, var(--color-primary)));width:var(--value)}
+    .table-wrap{overflow:auto;border-radius:var(--radius-xl);border:1px solid rgba(216,228,228,.08)}
+    table{width:100%;border-collapse:collapse;background:rgba(16,24,27,.88)} thead{position:sticky;top:0;background:rgba(16,24,27,.98)} th,td{padding:1rem;text-align:left;font-size:var(--text-sm)} th{font-size:var(--text-xs);color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid rgba(216,228,228,.08)} td{border-bottom:1px solid rgba(216,228,228,.05)} tr:hover td{background:rgba(83,210,200,.035)}
+    .status{display:inline-flex;align-items:center;gap:var(--space-2);padding:.35rem .65rem;border-radius:var(--radius-full);font-size:var(--text-xs);border:1px solid rgba(216,228,228,.08)}
+    .status.online{color:var(--color-success);background:rgba(127,211,107,.08)} .status.sync{color:var(--color-blue);background:rgba(104,168,255,.08)} .status.hold{color:var(--color-warning);background:rgba(242,172,85,.09)}
+    .command-palette{position:fixed;inset:0;background:rgba(5,9,10,.6);backdrop-filter:blur(12px);display:none;align-items:flex-start;justify-content:center;padding-top:12vh;z-index:80}
+    .command-palette.open{display:flex}
+    .palette-card{width:min(760px,92vw);border-radius:24px;background:linear-gradient(180deg, rgba(19,32,37,.98), rgba(11,17,19,.98));border:1px solid rgba(83,210,200,.18);box-shadow:var(--shadow-lg);overflow:hidden}
+    .palette-input{display:flex;align-items:center;gap:var(--space-3);padding:1rem 1.25rem;border-bottom:1px solid rgba(216,228,228,.08)}
+    .palette-input input{flex:1;background:transparent;border:none;outline:none;font-size:var(--text-base);font-family:var(--font-mono)}
+    .palette-list{padding:var(--space-3);display:grid;gap:var(--space-2)}
+    .palette-item{padding:.9rem 1rem;border-radius:var(--radius-lg);display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);border:1px solid transparent}.palette-item:hover{background:rgba(83,210,200,.08);border-color:rgba(83,210,200,.16)}
+    @media (max-width: 1180px){.hero,.cards,.metrics{grid-template-columns:1fr}.hero-copy h3{max-width:20ch}}
+    @media (max-width: 980px){.shell{grid-template-columns:1fr}.sidebar{position:fixed;inset:0 auto 0 0;width:min(320px,84vw);z-index:70;transform:translateX(-100%);transition:transform var(--transition-interactive)}.sidebar.open{transform:translateX(0)}.header{grid-column:1}.main{grid-column:1}.nav-toggle{display:grid}.search{min-width:0;flex:1}}
+    @media (min-width: 981px){.nav-toggle{display:none}}
+    @media (max-width: 640px){.header,.main,.sidebar,.hero,.card,.status-cluster{padding-left:var(--space-4);padding-right:var(--space-4)}.header{padding-top:var(--space-4);padding-bottom:var(--space-4)}.header-actions{width:100%}.search{order:3;width:100%}.hero{padding-top:var(--space-5)}th,td{padding:.85rem .75rem}}
+    @media (prefers-reduced-motion: reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="logo-wrap">
+        <div class="logo">
+          <div class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" aria-label="QGenesis logo">
+              <path d="M32 8 11 20v24l21 12 21-12V20L32 8Z" stroke="currentColor" stroke-width="4"/>
+              <path d="M22 28h20M22 36h14" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="46" cy="36" r="4" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="logo-copy">
+            <h1>QGenesis</h1>
+            <p>Master Terminal Server</p>
+          </div>
+        </div>
+        <button class="theme-btn" type="button" data-theme-toggle aria-label="Switch theme"></button>
+      </div>
+
+      <section class="panel status-cluster" aria-labelledby="runtime-status">
+        <div class="status-row">
+          <div>
+            <p class="nav-section-title" id="runtime-status">Runtime status</p>
+            <strong>QGS://PRIMARY</strong>
+          </div>
+          <span class="pill"><i class="dot"></i> Stable</span>
+        </div>
+        <div class="mini-grid">
+          <div class="mini-card"><span>Latency</span><strong>12.8 ms</strong></div>
+          <div class="mini-card"><span>Threads</span><strong>144</strong></div>
+          <div class="mini-card"><span>Qubits</span><strong>128 q</strong></div>
+          <div class="mini-card"><span>Agents</span><strong>09</strong></div>
+        </div>
+      </section>
+
+      <nav aria-label="Primary">
+        <div>
+          <p class="nav-section-title">Core lanes</p>
+          <a class="nav-link active" href="#overview"><span>Overview</span><span class="nav-meta">F1</span></a>
+          <a class="nav-link" href="#quantum"><span>Quantum fabric</span><span class="nav-meta">F2</span></a>
+          <a class="nav-link" href="#ai"><span>AI orchestration</span><span class="nav-meta">F3</span></a>
+          <a class="nav-link" href="#pipelines"><span>Pipeline control</span><span class="nav-meta">F4</span></a>
+        </div>
+        <div>
+          <p class="nav-section-title">Server planes</p>
+          <a class="nav-link" href="#sessions"><span>Session mesh</span><span class="nav-meta">08</span></a>
+          <a class="nav-link" href="#memory"><span>Memory lattice</span><span class="nav-meta">14</span></a>
+          <a class="nav-link" href="#security"><span>Security envelope</span><span class="nav-meta">03</span></a>
+          <a class="nav-link" href="#extensions"><span>Extensions</span><span class="nav-meta">01</span></a>
+        </div>
+      </nav>
+
+      <section class="panel sidebar-footer">
+        <div>
+          <p class="cluster-title">Extension slot</p>
+          <p class="cluster-copy">Configured for one extension shell with terminal-grade controls, routing, live logs, and module health indicators.</p>
+        </div>
+        <button class="btn btn-secondary" type="button" data-open-palette>
+          Open command palette <span class="kbd">Ctrl K</span>
+        </button>
+      </section>
+    </aside>
+
+    <header class="header">
+      <div class="header-title">
+        <button class="nav-toggle" type="button" data-sidebar-toggle aria-label="Open navigation">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <h2>Master orchestration console</h2>
+        <p>Designed as a single extension surface for quantum runtime control, AI task routing, telemetry inspection, and command-driven system administration.</p>
+      </div>
+      <div class="header-actions">
+        <label class="search" aria-label="Search commands">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input type="text" value="status --all --watch" aria-label="Command search" />
+          <span class="kbd">/</span>
+        </label>
+        <button class="btn btn-secondary" type="button">Export state</button>
+        <button class="btn btn-primary" type="button">Launch extension</button>
+      </div>
+    </header>
+
+    <main class="main" id="main">
+      <div class="grid">
+        <section class="panel hero" id="overview">
+          <div class="hero-copy">
+            <div>
+              <p class="eyebrow">Unified terminal architecture</p>
+              <h3>One command surface for QGenesis runtime, AI routing, and server coordination.</h3>
+            </div>
+            <p>The layout uses a dashboard-style terminal shell instead of a marketing page, so the extension feels like an operator console: compact typography, one primary scroll region, persistent navigation, live telemetry, and command-first controls.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" type="button">Initialize node</button>
+              <button class="btn btn-secondary" type="button">Inspect pipelines</button>
+            </div>
+            <div class="metrics" aria-label="Key metrics">
+              <article class="metric"><span>Quantum readiness</span><strong>94.2%</strong><em> +6.1% sync gain</em></article>
+              <article class="metric"><span>Agent throughput</span><strong>8.31 k/s</strong><em> steady</em></article>
+              <article class="metric"><span>Extension health</span><strong>01/01</strong><em> online</em></article>
+            </div>
+          </div>
+          <section class="terminal" aria-label="Runtime terminal">
+            <div class="term-top">
+              <div class="term-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span class="term-label">qgenesis.master/terminal</span>
+            </div>
+            <div class="log">
+              <div class="log-line"><span class="log-time">23:51:08</span><span><span class="log-tag">[BOOT]</span> QGenesis kernel bridge mounted on extension slot A.</span></div>
+              <div class="log-line"><span class="log-time">23:51:11</span><span><span class="log-blue">[MESH]</span> AI orchestrator linked to 9 service agents and 3 route maps.</span></div>
+              <div class="log-line"><span class="log-time">23:51:16</span><span><span class="log-good">[QFAB]</span> Entanglement monitor reports coherence window at 0.942.</span></div>
+              <div class="log-line"><span class="log-time">23:51:19</span><span><span class="log-tag">[PIPE]</span> Prompt traffic normalized across compute, memory, and simulation lanes.</span></div>
+              <div class="log-line"><span class="log-time">23:51:24</span><span><span class="log-warn">[WATCH]</span> Thermal drift alert cleared after scheduler rebalance.</span></div>
+              <div class="log-line"><span class="log-time">23:51:30</span><span><span class="log-good">[READY]</span> Extension package QGenesisMasterTerminalServer.html is ready for standalone deployment.</span></div>
+            </div>
+            <label class="prompt" aria-label="Terminal prompt">
+              <span>qgenesis&gt;</span>
+              <input type="text" placeholder="run module.quantum --target=extension-A" />
+            </label>
+          </section>
+        </section>
+
+        <section class="grid" id="extensions">
+          <div class="section-head">
+            <div>
+              <h4>Extension modules</h4>
+              <p>Three operator cards define the first build: runtime core, AI command bus, and deployment envelope.</p>
+            </div>
+            <span class="pill"><i class="dot"></i> Single extension configured</span>
+          </div>
+          <div class="cards">
+            <article class="panel card">
+              <div class="card-top"><h5>Quantum fabric core</h5><span class="mono">module.qf-01</span></div>
+              <p>Handles qubit session tracking, coherence snapshots, and runtime handoff for hybrid workflows.</p>
+              <div class="bar" style="--value:92%"><i></i></div>
+              <div class="status online"><i class="dot"></i> Online</div>
+            </article>
+            <article class="panel card">
+              <div class="card-top"><h5>AI orchestration bus</h5><span class="mono">module.ai-03</span></div>
+              <p>Routes prompts, evaluates responses, and coordinates chained model operations across the terminal.</p>
+              <div class="bar" style="--value:87%"><i></i></div>
+              <div class="status sync"><i class="dot"></i> Syncing</div>
+            </article>
+            <article class="panel card">
+              <div class="card-top"><h5>Deployment envelope</h5><span class="mono">module.ops-01</span></div>
+              <p>Packages the extension shell, environment settings, and watch-state controls for browser deployment.</p>
+              <div class="bar" style="--value:78%"><i></i></div>
+              <div class="status hold"><i class="dot"></i> Review</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="grid" id="sessions">
+          <div class="section-head">
+            <div>
+              <h4>Session registry</h4>
+              <p>Compact table for active lanes, expected task class, and module state.</p>
+            </div>
+          </div>
+          <div class="table-wrap panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Lane</th>
+                  <th>Purpose</th>
+                  <th>Owner</th>
+                  <th>Load</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono">lane://quantum/alpha</td>
+                  <td>Circuit simulation and coherence tests</td>
+                  <td>Quantum fabric</td>
+                  <td class="mono">64%</td>
+                  <td><span class="status online"><i class="dot"></i> Stable</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">lane://ai/router</td>
+                  <td>Prompt arbitration and response scoring</td>
+                  <td>AI bus</td>
+                  <td class="mono">71%</td>
+                  <td><span class="status sync"><i class="dot"></i> Active</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">lane://memory/cache</td>
+                  <td>Context storage and retrieval staging</td>
+                  <td>Memory lattice</td>
+                  <td class="mono">43%</td>
+                  <td><span class="status online"><i class="dot"></i> Ready</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">lane://ops/deploy</td>
+                  <td>Packaging, export, and rollback control</td>
+                  <td>Deployment envelope</td>
+                  <td class="mono">37%</td>
+                  <td><span class="status hold"><i class="dot"></i> Review</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="command-palette" id="commandPalette" aria-hidden="true">
+    <div class="palette-card">
+      <div class="palette-input">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h8"></path><path d="m8 8 4 4-4 4"></path><path d="M13 5h7v14h-7"></path></svg>
+        <input type="text" value="deploy extension --slot=A --watch" aria-label="Command palette" />
+        <span class="kbd">Esc</span>
+      </div>
+      <div class="palette-list">
+        <div class="palette-item"><span>Initialize quantum fabric</span><span class="mono">run qfabric.init</span></div>
+        <div class="palette-item"><span>Start AI router sync</span><span class="mono">run ai.router --sync</span></div>
+        <div class="palette-item"><span>Export current terminal state</span><span class="mono">export state.json</span></div>
+        <div class="palette-item"><span>Deploy extension package</span><span class="mono">deploy extension-A</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const themeBtn = document.querySelector('[data-theme-toggle]');
+      const sidebar = document.getElementById('sidebar');
+      const palette = document.getElementById('commandPalette');
+      const openPaletteBtn = document.querySelector('[data-open-palette]');
+      const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
+      let theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+
+      function renderThemeIcon() {
+        if (!themeBtn) return;
+        themeBtn.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+        themeBtn.innerHTML = theme === 'dark'
+          ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>'
+          : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>';
+      }
+      renderThemeIcon();
+
+      themeBtn?.addEventListener('click', () => {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+        renderThemeIcon();
+      });
+
+      sidebarToggle?.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+      function setPalette(open) {
+        palette.classList.toggle('open', open);
+        palette.setAttribute('aria-hidden', String(!open));
+      }
+
+      openPaletteBtn?.addEventListener('click', () => setPalette(true));
+      palette.addEventListener('click', (event) => {
+        if (event.target === palette) setPalette(false);
+      });
+
+      document.addEventListener('keydown', (event) => {
+        const key = event.key.toLowerCase();
+        if ((event.ctrlKey || event.metaKey) && key === 'k') {
+          event.preventDefault();
+          setPalette(true);
+        }
+        if (key === 'escape') setPalette(false);
+        if (key === '/' && document.activeElement.tagName !== 'INPUT') {
+          event.preventDefault();
+          document.querySelector('.search input')?.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
