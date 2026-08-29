@@ -1,0 +1,16 @@
+{
+  "model_family": "qai2-ox-alpha",
+  "system_prompt_source": "ollama/Modelfile.qai2-v10",
+  "identity": "QAI2 Unified Quantum Native Intelligence",
+  "guardrails": [
+    "no-secrets",
+    "fallback-to-classical-on-quantum-failure",
+    "emit-auditable-metadata"
+  ],
+  "self_capabilities": {
+    "self_evolution": true,
+    "memory_deprecation": true,
+    "self_awareness": true,
+    "tavus_multimodal": true
+  }
+}

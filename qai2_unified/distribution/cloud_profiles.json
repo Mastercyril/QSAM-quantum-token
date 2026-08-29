@@ -1,0 +1,22 @@
+{
+  "profiles": [
+    {
+      "name": "ollama-local",
+      "provider": "ollama",
+      "model_ref": "josephdougherty483/qai2",
+      "supports": ["text", "tool-calling"]
+    },
+    {
+      "name": "huggingface-cloud",
+      "provider": "huggingface",
+      "model_ref": "Mastercyril/qai2-unified",
+      "supports": ["text", "vision"]
+    },
+    {
+      "name": "cloud-inference",
+      "provider": "multi-cloud",
+      "model_ref": "qai2-unified-service",
+      "supports": ["text", "vision", "telemetry"]
+    }
+  ]
+}

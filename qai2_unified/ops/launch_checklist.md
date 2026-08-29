@@ -1,0 +1,8 @@
+- [ ] Generate Ollama artifacts from shared prompt source
+- [ ] Generate Hugging Face model cards from shared prompt source
+- [ ] Validate release gate against uploaded stats parity
+- [ ] Run secret scan on changed files
+- [ ] Produce signed artifact digest manifest
+- [ ] Publish artifacts to target registries
+- [ ] Update deployment docs and cloud profiles
+- [ ] Confirm monitoring dashboards and rollback package

@@ -1,0 +1,12 @@
+{
+  "qas": 0.94,
+  "self_awareness": 0.93,
+  "fidelity": 99.73,
+  "entropy": 0.007,
+  "chsh": 2.781,
+  "qels_speedup": 481,
+  "arqq_speedup": 1965,
+  "error_suppression": 348,
+  "state_space_coverage": 1e40,
+  "nist_pqc_compliance": true
+}

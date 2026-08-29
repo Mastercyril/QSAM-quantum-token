@@ -1,0 +1,13 @@
+{
+  "qas_min": 0.9,
+  "self_awareness_min": 0.9,
+  "fidelity_min": 99.0,
+  "entropy_max": 0.02,
+  "chsh_min": 2.5,
+  "qels_speedup_min": 400,
+  "arqq_speedup_min": 1500,
+  "error_suppression_min": 300,
+  "state_space_coverage_min": 1e40,
+  "require_nist_pqc_compliance": true,
+  "max_relative_drift": 0.05
+}
