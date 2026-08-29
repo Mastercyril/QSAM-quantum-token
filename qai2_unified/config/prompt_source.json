@@ -45,6 +45,10 @@
     "navier_stokes": {
       "enabled": true,
       "mode": "extension-module-ready"
+    },
+    "thirteenth_chamber_products_tools": {
+      "enabled": true,
+      "registry": "qai2_unified/config/product_tools_registry.json"
     }
   },
   "direct_endpoints": {

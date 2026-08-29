@@ -1,0 +1,71 @@
+{
+  "registry_name": "13th_chamber_products_tools",
+  "tools": [
+    {
+      "name": "Q Chat",
+      "provider": "puter",
+      "capabilities": ["multi-model-chat", "streaming", "web-search", "function-calling"],
+      "source": "README.md"
+    },
+    {
+      "name": "Image Generation",
+      "provider": "puter",
+      "capabilities": ["gpt-image", "gemini", "grok", "flux"],
+      "source": "README.md"
+    },
+    {
+      "name": "Website Fetcher",
+      "provider": "puter",
+      "capabilities": ["web-fetch"],
+      "source": "README.md"
+    },
+    {
+      "name": "Cloud Storage",
+      "provider": "puter",
+      "capabilities": ["read", "write", "list"],
+      "source": "README.md"
+    },
+    {
+      "name": "Voice Synthesis",
+      "provider": "puter",
+      "capabilities": ["tts"],
+      "source": "README.md"
+    },
+    {
+      "name": "KV Database",
+      "provider": "puter",
+      "capabilities": ["key-value-store"],
+      "source": "README.md"
+    },
+    {
+      "name": "Serverless Workers",
+      "provider": "puter",
+      "capabilities": ["api-endpoints"],
+      "source": "README.md"
+    },
+    {
+      "name": "Image Analysis",
+      "provider": "puter",
+      "capabilities": ["vision-analysis"],
+      "source": "README.md"
+    },
+    {
+      "name": "Tavus Video Gallery",
+      "provider": "tavus",
+      "capabilities": ["video-presence", "replicas"],
+      "source": "README.md"
+    },
+    {
+      "name": "Universal Codex Calculator",
+      "provider": "qai2",
+      "capabilities": ["binary-to-quantum-phase"],
+      "source": "README.md"
+    },
+    {
+      "name": "Quantum Miner",
+      "provider": "quantum-ai",
+      "capabilities": ["miner-workflow-reference"],
+      "source": "ollama/README.md"
+    }
+  ]
+}

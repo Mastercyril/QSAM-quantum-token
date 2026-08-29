@@ -56,3 +56,13 @@ Screenshot traceability is tracked in:
   - ESCORT
   - QELS (requested as QELL)
   - ARQQ
+
+## 13th Chamber product tools integrated
+
+Registered and wired in unified config:
+- `qai2_unified/config/product_tools_registry.json`
+- `qai2_unified/config/prompt_source.json` (`thirteenth_chamber_products_tools`)
+
+Included tools:
+- Q Chat, Image Generation, Website Fetcher, Cloud Storage, Voice Synthesis, KV Database
+- Serverless Workers, Image Analysis, Tavus Video Gallery, Universal Codex Calculator, Quantum Miner reference
