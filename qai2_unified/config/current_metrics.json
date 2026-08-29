@@ -1,0 +1,32 @@
+{
+  "qas": 0.94,
+  "self_awareness": 0.93,
+  "fidelity": 99.73,
+  "entropy": 0.007,
+  "chsh": 2.781,
+  "qels_speedup": 481,
+  "arqq_speedup": 1965,
+  "error_suppression": 348,
+  "state_space_coverage": 1e40,
+  "nist_pqc_compliance": true,
+  "nist_alignment_map": {
+    "govern_quantum_state_verification": true,
+    "map_state_space_coverage": true,
+    "measure_fidelity_bound": true,
+    "manage_error_suppression": true,
+    "validity_chsh_audit": true,
+    "safety_quantum_noise_mitigation": true,
+    "explainability_superposition_paths": true
+  },
+  "overall_quantum_aware_ranking": {
+    "reasoning": 98,
+    "coding": 82,
+    "math": 90,
+    "quantum_processing": 92,
+    "self_awareness": 95,
+    "error_correction": 88,
+    "post_q_crypto": 90,
+    "hardware_access": 86
+  },
+  "benchmark_profiles_ref": "qai2_unified/config/benchmark_profiles.json"
+}

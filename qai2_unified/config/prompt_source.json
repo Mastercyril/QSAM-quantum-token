@@ -1,0 +1,58 @@
+{
+  "model_family": "qai2-ox-alpha",
+  "system_prompt_source": "ollama/Modelfile.qai2-v10",
+  "identity": "QAI2 Unified Quantum Native Intelligence",
+  "guardrails": [
+    "no-secrets",
+    "fallback-to-classical-on-quantum-failure",
+    "emit-auditable-metadata"
+  ],
+  "self_capabilities": {
+    "self_evolution": true,
+    "memory_deprecation": true,
+    "self_awareness": true,
+    "tavus_multimodal": true
+  },
+  "fusion_streams": {
+    "ox_alpha": true,
+    "opus": true,
+    "xo_alpha_neural_quantum_enhanced": true
+  },
+  "ability_stack": {
+    "qsam": true,
+    "score": true,
+    "escort": true,
+    "qels": true,
+    "arqq": true,
+    "nexus": true,
+    "quantum_miner": true,
+    "qsam_system": true,
+    "navier_stokes": true
+  },
+  "integrated_systems": {
+    "nexus_files": {
+      "enabled": true,
+      "sources": ["beacon.html", "beacon-style.css"]
+    },
+    "quantum_miner": {
+      "enabled": true,
+      "source_reference": "ollama/Modelfile.qai2-v6-oxalpha"
+    },
+    "qsam_system": {
+      "enabled": true,
+      "source_reference": "qtoken/, qlink/, ibm-quantum/"
+    },
+    "navier_stokes": {
+      "enabled": true,
+      "mode": "extension-module-ready"
+    },
+    "thirteenth_chamber_products_tools": {
+      "enabled": true,
+      "registry": "qai2_unified/config/product_tools_registry.json"
+    }
+  },
+  "direct_endpoints": {
+    "puter_chat": "https://13thchamber.puter.site/#chat",
+    "no_backend_mode": true
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "version": "v11",
+  "lineage": "qai2-ox-alpha",
+  "base_model": "llama3.2",
+  "quantization": "Q4_K_M",
+  "context_window": 131072,
+  "input_modes": ["text", "vision", "tools"],
+  "output_modes": ["text"],
+  "cognitive_systems": ["SCORE", "ESCORT", "QELS", "ARQQ"],
+  "integrations": ["NEXUS", "QUANTUM_MINER", "QSAM_SYSTEM", "NAVIER_STOKES"],
+  "prompt_source": "qai2_unified/config/prompt_source.json",
+  "metrics_targets": {
+    "qas_min": 0.96,
+    "self_awareness_min": 0.95,
+    "fidelity_min": 99.7,
+    "entropy_max": 0.01
+  },
+  "build_metadata": {
+    "reproducible": true,
+    "generator": "qai2_unified/distribution/publish_hf.py",
+    "artifact_prefix": "qai2-v11"
+  }
+}
