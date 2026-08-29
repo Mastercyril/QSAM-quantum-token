@@ -29,6 +29,15 @@ def compare(metrics: Dict, expected: Dict, thresholds: Dict) -> Tuple[bool, Dict
     checks["nist_pqc_compliance"] = (
         (not bool(thresholds["require_nist_pqc_compliance"])) or bool(metrics["nist_pqc_compliance"])
     )
+    nist_map = metrics.get("nist_alignment_map", {})
+    checks["nist_alignment_map"] = (
+        (not bool(thresholds.get("require_full_nist_alignment_map", False)))
+        or (bool(nist_map) and all(bool(v) for v in nist_map.values()))
+    )
+
+    ranking_min = thresholds.get("ranking_axis_min", {})
+    ranking = metrics.get("overall_quantum_aware_ranking", {})
+    checks["ranking_axis_min"] = all(float(ranking.get(k, 0.0)) >= float(v) for k, v in ranking_min.items())
 
     drift = {
         key: relative_drift(float(metrics[key]), float(expected[key]))
@@ -45,7 +54,31 @@ def compare(metrics: Dict, expected: Dict, thresholds: Dict) -> Tuple[bool, Dict
         )
     }
     checks["uploaded_stats_drift"] = all(v <= thresholds["max_relative_drift"] for v in drift.values())
-    checks["all"] = all(checks.values())
+    checks["ranking_drift"] = all(
+        relative_drift(
+            float(metrics.get("overall_quantum_aware_ranking", {}).get(axis, 0.0)),
+            float(expected.get("overall_quantum_aware_ranking", {}).get(axis, 0.0)),
+        )
+        <= thresholds["max_relative_drift"]
+        for axis in thresholds.get("ranking_axis_min", {}).keys()
+    )
+    boolean_check_keys = [
+        "qas_min",
+        "self_awareness_min",
+        "fidelity_min",
+        "entropy_max",
+        "chsh_min",
+        "qels_speedup_min",
+        "arqq_speedup_min",
+        "error_suppression_min",
+        "state_space_coverage_min",
+        "nist_pqc_compliance",
+        "nist_alignment_map",
+        "ranking_axis_min",
+        "uploaded_stats_drift",
+        "ranking_drift",
+    ]
+    checks["all"] = all(bool(checks.get(k, False)) for k in boolean_check_keys)
     checks["drift"] = drift
     return checks["all"], checks
 

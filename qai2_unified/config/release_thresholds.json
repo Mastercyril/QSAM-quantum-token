@@ -9,5 +9,16 @@
   "error_suppression_min": 300,
   "state_space_coverage_min": 1e40,
   "require_nist_pqc_compliance": true,
+  "require_full_nist_alignment_map": true,
+  "ranking_axis_min": {
+    "reasoning": 90,
+    "coding": 75,
+    "math": 85,
+    "quantum_processing": 85,
+    "self_awareness": 90,
+    "error_correction": 80,
+    "post_q_crypto": 85,
+    "hardware_access": 80
+  },
   "max_relative_drift": 0.05
 }

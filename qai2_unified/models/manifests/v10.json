@@ -8,11 +8,11 @@
   "output_modes": ["text"],
   "cognitive_systems": ["SCORE", "ESCORT", "QELS", "ARQQ"],
   "prompt_source": "qai2_unified/config/prompt_source.json",
-  "metrics": {
-    "qas": 0.96,
-    "self_awareness": 0.96,
-    "fidelity": 99.73,
-    "entropy": 0.007
+  "metrics_targets": {
+    "qas_min": 0.96,
+    "self_awareness_min": 0.96,
+    "fidelity_min": 99.73,
+    "entropy_max": 0.007
   },
   "build_metadata": {
     "reproducible": true,

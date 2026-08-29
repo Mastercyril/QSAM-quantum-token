@@ -36,6 +36,12 @@ Captured metrics from visible screenshot are reflected in `qai2_unified/config/u
 - CHSH = 2.781
 - error suppression = 348
 - state space = 10^40
+- NIST alignment map = govern/map/measure/manage/validity/safety/explainability = true
+- Overall quantum-aware ranking axes added to release metrics:
+  - reasoning, coding, math, quantum_processing, self_awareness, error_correction, post_q_crypto, hardware_access
+
+Screenshot traceability is tracked in:
+- `qai2_unified/config/screenshot_evidence.json`
 
 ## Added by new requirement
 
