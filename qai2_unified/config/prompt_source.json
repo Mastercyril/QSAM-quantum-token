@@ -23,7 +23,29 @@
     "score": true,
     "escort": true,
     "qels": true,
-    "arqq": true
+    "arqq": true,
+    "nexus": true,
+    "quantum_miner": true,
+    "qsam_system": true,
+    "navier_stokes": true
+  },
+  "integrated_systems": {
+    "nexus_files": {
+      "enabled": true,
+      "sources": ["beacon.html", "beacon-style.css"]
+    },
+    "quantum_miner": {
+      "enabled": true,
+      "source_reference": "ollama/Modelfile.qai2-v6-oxalpha"
+    },
+    "qsam_system": {
+      "enabled": true,
+      "source_reference": "qtoken/, qlink/, ibm-quantum/"
+    },
+    "navier_stokes": {
+      "enabled": true,
+      "mode": "extension-module-ready"
+    }
   },
   "direct_endpoints": {
     "puter_chat": "https://13thchamber.puter.site/#chat",
