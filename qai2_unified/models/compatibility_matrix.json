@@ -14,21 +14,21 @@
       "runtime_contract": "1.1",
       "qtoken_min": "8.1.0",
       "qlink_min": "1.0.0",
-      "distribution_targets": ["ollama-local", "huggingface-cloud", "cloud-inference"]
+      "distribution_targets": ["ollama-local", "huggingface-cloud", "cloud-inference", "puter-direct-no-backend"]
     },
     {
       "version": "v11",
       "runtime_contract": "1.2",
       "qtoken_min": "8.1.0",
       "qlink_min": "1.0.0",
-      "distribution_targets": ["ollama-local", "huggingface-cloud", "cloud-inference"]
+      "distribution_targets": ["ollama-local", "huggingface-cloud", "cloud-inference", "puter-direct-no-backend"]
     },
     {
       "version": "v12",
       "runtime_contract": "1.3",
       "qtoken_min": "8.1.0",
       "qlink_min": "1.0.0",
-      "distribution_targets": ["ollama-local", "huggingface-cloud", "cloud-inference", "ibm-quantum-assisted"]
+      "distribution_targets": ["ollama-local", "huggingface-cloud", "cloud-inference", "ibm-quantum-assisted", "puter-direct-no-backend"]
     }
   ]
 }

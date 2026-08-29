@@ -17,6 +17,6 @@ QAI2 Unified consolidates existing Q-Token + QLink + Ollama assets into one mono
 ## Quick validation
 
 ```bash
-python -m unittest discover /home/runner/work/QSAM-quantum-token/QSAM-quantum-token/qai2_unified/tests -v
-python /home/runner/work/QSAM-quantum-token/QSAM-quantum-token/qai2_unified/eval/release_gate.py --metrics /home/runner/work/QSAM-quantum-token/QSAM-quantum-token/qai2_unified/config/current_metrics.json
+python -m unittest discover qai2_unified/tests -v
+python qai2_unified/eval/release_gate.py --metrics qai2_unified/config/current_metrics.json
 ```

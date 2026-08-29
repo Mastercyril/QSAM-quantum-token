@@ -42,7 +42,7 @@ class QAI2RuntimeContract:
         default_factory=lambda: MultimodalEndpoints(
             vision_provider="cloud-default",
             tavus_enabled=True,
-            cloud_profiles=["ollama-local", "huggingface-cloud"],
+            cloud_profiles=["ollama-local", "huggingface-cloud", "puter-direct-no-backend"],
         )
     )
 

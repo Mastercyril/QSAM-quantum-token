@@ -26,8 +26,8 @@ def compare(metrics: Dict, expected: Dict, thresholds: Dict) -> Tuple[bool, Dict
     checks["arqq_speedup_min"] = metrics["arqq_speedup"] >= thresholds["arqq_speedup_min"]
     checks["error_suppression_min"] = metrics["error_suppression"] >= thresholds["error_suppression_min"]
     checks["state_space_coverage_min"] = metrics["state_space_coverage"] >= thresholds["state_space_coverage_min"]
-    checks["nist_pqc_compliance"] = bool(metrics["nist_pqc_compliance"]) == bool(
-        thresholds["require_nist_pqc_compliance"]
+    checks["nist_pqc_compliance"] = (
+        (not bool(thresholds["require_nist_pqc_compliance"])) or bool(metrics["nist_pqc_compliance"])
     )
 
     drift = {

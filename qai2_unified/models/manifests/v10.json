@@ -6,6 +6,7 @@
   "context_window": 131072,
   "input_modes": ["text", "vision"],
   "output_modes": ["text"],
+  "cognitive_systems": ["SCORE", "ESCORT", "QELS", "ARQQ"],
   "prompt_source": "qai2_unified/config/prompt_source.json",
   "metrics": {
     "qas": 0.96,

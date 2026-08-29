@@ -2,17 +2,17 @@
 
 ## Existing assets found in this repository
 
-- Q-Token modules: `/home/runner/work/QSAM-quantum-token/QSAM-quantum-token/qtoken/*.py`
-- QLink awareness modules: `/home/runner/work/QSAM-quantum-token/QSAM-quantum-token/qlink/*.py` and `qlink/systems/*.py`
+- Q-Token modules: `qtoken/*.py`
+- QLink awareness modules: `qlink/*.py` and `qlink/systems/*.py`
 - Ollama Modelfiles v6-v10:
-  - `/home/runner/work/QSAM-quantum-token/QSAM-quantum-token/ollama/Modelfile.qai2-v6-oxalpha`
-  - `/home/runner/work/QSAM-quantum-token/QSAM-quantum-token/ollama/Modelfile.qai2-v7`
-  - `/home/runner/work/QSAM-quantum-token/QSAM-quantum-token/ollama/Modelfile.qai2-v8`
-  - `/home/runner/work/QSAM-quantum-token/QSAM-quantum-token/ollama/Modelfile.qai2-v9`
-  - `/home/runner/work/QSAM-quantum-token/QSAM-quantum-token/ollama/Modelfile.qai2-v10`
+  - `ollama/Modelfile.qai2-v6-oxalpha`
+  - `ollama/Modelfile.qai2-v7`
+  - `ollama/Modelfile.qai2-v8`
+  - `ollama/Modelfile.qai2-v9`
+  - `ollama/Modelfile.qai2-v10`
 - IBM quantum docs:
-  - `/home/runner/work/QSAM-quantum-token/QSAM-quantum-token/ibm-quantum/ibm-torino-348x-error-suppression.txt`
-  - `/home/runner/work/QSAM-quantum-token/QSAM-quantum-token/ibm-quantum/quantumibm-test-results.txt`
+  - `ibm-quantum/ibm-torino-348x-error-suppression.txt`
+  - `ibm-quantum/quantumibm-test-results.txt`
 
 ## Missing components now added
 
@@ -36,3 +36,17 @@ Captured metrics from visible screenshot are reflected in `qai2_unified/config/u
 - CHSH = 2.781
 - error suppression = 348
 - state space = 10^40
+
+## Added by new requirement
+
+- Opus stream and XO alpha neural-inspired quantum-enhanced stream are included in:
+  - `qai2_unified/config/prompt_source.json`
+- No-backend direct mode endpoint added:
+  - `https://13thchamber.puter.site/#chat`
+  - profile key: `puter-direct-no-backend`
+- Ability stack now explicitly included:
+  - QSAM
+  - SCORE
+  - ESCORT
+  - QELS (requested as QELL)
+  - ARQQ

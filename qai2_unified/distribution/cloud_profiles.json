@@ -17,6 +17,13 @@
       "provider": "multi-cloud",
       "model_ref": "qai2-unified-service",
       "supports": ["text", "vision", "telemetry"]
+    },
+    {
+      "name": "puter-direct-no-backend",
+      "provider": "puter",
+      "endpoint": "https://13thchamber.puter.site/#chat",
+      "supports": ["text", "vision", "opus", "xo-alpha"],
+      "no_backend_mode": true
     }
   ]
 }

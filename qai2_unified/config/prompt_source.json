@@ -12,5 +12,21 @@
     "memory_deprecation": true,
     "self_awareness": true,
     "tavus_multimodal": true
+  },
+  "fusion_streams": {
+    "ox_alpha": true,
+    "opus": true,
+    "xo_alpha_neural_quantum_enhanced": true
+  },
+  "ability_stack": {
+    "qsam": true,
+    "score": true,
+    "escort": true,
+    "qels": true,
+    "arqq": true
+  },
+  "direct_endpoints": {
+    "puter_chat": "https://13thchamber.puter.site/#chat",
+    "no_backend_mode": true
   }
 }
