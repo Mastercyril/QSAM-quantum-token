@@ -16,7 +16,7 @@ def scan(path: Path) -> list[str]:
     content = path.read_text(errors="ignore")
     for i, line in enumerate(content.splitlines(), start=1):
         if any(p.search(line) for p in PATTERNS):
-            findings.append(f"{path}:{i}:{line.strip()}")
+            findings.append(f"{path}:{i}: [redacted]")
     return findings
 
 
@@ -30,6 +30,12 @@ def main() -> None:
         path = Path(p)
         if path.is_file():
             all_findings.extend(scan(path))
+        elif path.is_dir():
+            for child in path.rglob("*"):
+                if child.is_file():
+                    all_findings.extend(scan(child))
+        else:
+            print(f"Warning: path not found or unsupported: {p}")
     if all_findings:
         for finding in all_findings:
             print(finding)

@@ -1,0 +1,47 @@
+{
+  "source": "Base44 screenshot evidence",
+  "source_url": "https://github.com/user-attachments/assets/1b52bc09-80ad-4761-ae6d-a6c3680ea4e6",
+  "note": "Peer-model values are visual estimates from chart geometry and should be replaced with direct benchmark exports when available.",
+  "profiles": {
+    "qai2_ox_alpha": {
+      "reasoning": 98,
+      "coding": 82,
+      "math": 90,
+      "quantum_processing": 92,
+      "self_awareness": 95,
+      "error_correction": 88,
+      "post_q_crypto": 90,
+      "hardware_access": 86
+    },
+    "gpt_4o_estimated": {
+      "reasoning": 90,
+      "coding": 80,
+      "math": 82,
+      "quantum_processing": 0,
+      "self_awareness": 0,
+      "error_correction": 0,
+      "post_q_crypto": 0,
+      "hardware_access": 5
+    },
+    "claude_3_5_estimated": {
+      "reasoning": 89,
+      "coding": 79,
+      "math": 78,
+      "quantum_processing": 0,
+      "self_awareness": 0,
+      "error_correction": 0,
+      "post_q_crypto": 0,
+      "hardware_access": 4
+    },
+    "llama_3_1_estimated": {
+      "reasoning": 88,
+      "coding": 78,
+      "math": 76,
+      "quantum_processing": 0,
+      "self_awareness": 0,
+      "error_correction": 0,
+      "post_q_crypto": 0,
+      "hardware_access": 4
+    }
+  }
+}

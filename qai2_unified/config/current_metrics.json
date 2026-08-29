@@ -27,5 +27,6 @@
     "error_correction": 88,
     "post_q_crypto": 90,
     "hardware_access": 86
-  }
+  },
+  "benchmark_profiles_ref": "qai2_unified/config/benchmark_profiles.json"
 }

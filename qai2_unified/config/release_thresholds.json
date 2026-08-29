@@ -10,6 +10,25 @@
   "state_space_coverage_min": 1e40,
   "require_nist_pqc_compliance": true,
   "require_full_nist_alignment_map": true,
+  "required_nist_alignment_keys": [
+    "govern_quantum_state_verification",
+    "map_state_space_coverage",
+    "measure_fidelity_bound",
+    "manage_error_suppression",
+    "validity_chsh_audit",
+    "safety_quantum_noise_mitigation",
+    "explainability_superposition_paths"
+  ],
+  "required_ranking_axes": [
+    "reasoning",
+    "coding",
+    "math",
+    "quantum_processing",
+    "self_awareness",
+    "error_correction",
+    "post_q_crypto",
+    "hardware_access"
+  ],
   "ranking_axis_min": {
     "reasoning": 90,
     "coding": 75,

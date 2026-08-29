@@ -35,7 +35,7 @@ jobs:
         run: python qai2_unified/eval/release_gate.py --metrics qai2_unified/config/current_metrics.json
 
       - name: Secret scan
-        run: python qai2_unified/ops/secret_scan.py qai2_unified/config/current_metrics.json qai2_unified/config/prompt_source.json
+        run: python qai2_unified/ops/secret_scan.py qai2_unified/
 
       - name: Sign artifact manifest
         env:

@@ -19,24 +19,25 @@ def main() -> None:
     args = parser.parse_args()
 
     input_dir = Path(args.input_dir)
+    output_path = Path(args.output).resolve()
     digest_map = {}
     for file_path in sorted(input_dir.glob("*")):
-        if file_path.is_file():
+        if file_path.is_file() and file_path.resolve() != output_path:
             digest_map[file_path.name] = sha256_file(file_path)
 
     key = os.environ.get("QAI2_ARTIFACT_SIGNING_KEY", "")
-    signature = ""
-    if key:
-        signature = hmac.new(key.encode(), json.dumps(digest_map, sort_keys=True).encode(), hashlib.sha256).hexdigest()
+    if not key:
+        raise SystemExit("QAI2_ARTIFACT_SIGNING_KEY is required for artifact signing.")
+    signature = hmac.new(key.encode(), json.dumps(digest_map, sort_keys=True).encode(), hashlib.sha256).hexdigest()
 
     payload = {
         "algorithm": "sha256",
         "files": digest_map,
         "signature_hmac_sha256": signature,
-        "signature_present": bool(signature),
+        "signature_present": True,
     }
-    Path(args.output).write_text(json.dumps(payload, indent=2))
-    print(f"Wrote artifact manifest: {args.output}")
+    output_path.write_text(json.dumps(payload, indent=2))
+    print(f"Wrote artifact manifest: {output_path}")
 
 
 if __name__ == "__main__":

@@ -17,30 +17,53 @@ def relative_drift(actual: float, expected: float) -> float:
 
 def compare(metrics: Dict, expected: Dict, thresholds: Dict) -> Tuple[bool, Dict]:
     checks = {}
-    checks["qas_min"] = metrics["qas"] >= thresholds["qas_min"]
-    checks["self_awareness_min"] = metrics["self_awareness"] >= thresholds["self_awareness_min"]
-    checks["fidelity_min"] = metrics["fidelity"] >= thresholds["fidelity_min"]
-    checks["entropy_max"] = metrics["entropy"] <= thresholds["entropy_max"]
-    checks["chsh_min"] = metrics["chsh"] >= thresholds["chsh_min"]
-    checks["qels_speedup_min"] = metrics["qels_speedup"] >= thresholds["qels_speedup_min"]
-    checks["arqq_speedup_min"] = metrics["arqq_speedup"] >= thresholds["arqq_speedup_min"]
-    checks["error_suppression_min"] = metrics["error_suppression"] >= thresholds["error_suppression_min"]
-    checks["state_space_coverage_min"] = metrics["state_space_coverage"] >= thresholds["state_space_coverage_min"]
+    checks["qas_min"] = float(metrics.get("qas", float("-inf"))) >= float(thresholds["qas_min"])
+    checks["self_awareness_min"] = float(metrics.get("self_awareness", float("-inf"))) >= float(
+        thresholds["self_awareness_min"]
+    )
+    checks["fidelity_min"] = float(metrics.get("fidelity", float("-inf"))) >= float(thresholds["fidelity_min"])
+    checks["entropy_max"] = float(metrics.get("entropy", float("inf"))) <= float(thresholds["entropy_max"])
+    checks["chsh_min"] = float(metrics.get("chsh", float("-inf"))) >= float(thresholds["chsh_min"])
+    checks["qels_speedup_min"] = float(metrics.get("qels_speedup", float("-inf"))) >= float(
+        thresholds["qels_speedup_min"]
+    )
+    checks["arqq_speedup_min"] = float(metrics.get("arqq_speedup", float("-inf"))) >= float(
+        thresholds["arqq_speedup_min"]
+    )
+    checks["error_suppression_min"] = float(metrics.get("error_suppression", float("-inf"))) >= float(
+        thresholds["error_suppression_min"]
+    )
+    checks["state_space_coverage_min"] = float(metrics.get("state_space_coverage", float("-inf"))) >= float(
+        thresholds["state_space_coverage_min"]
+    )
     checks["nist_pqc_compliance"] = (
         (not bool(thresholds["require_nist_pqc_compliance"])) or bool(metrics["nist_pqc_compliance"])
     )
     nist_map = metrics.get("nist_alignment_map", {})
+    required_nist_keys = thresholds.get("required_nist_alignment_keys", [])
+    checks["nist_alignment_keys_complete"] = all(k in nist_map for k in required_nist_keys)
     checks["nist_alignment_map"] = (
         (not bool(thresholds.get("require_full_nist_alignment_map", False)))
-        or (bool(nist_map) and all(bool(v) for v in nist_map.values()))
+        or (
+            bool(nist_map)
+            and checks["nist_alignment_keys_complete"]
+            and all(bool(nist_map.get(k, False)) for k in required_nist_keys)
+        )
     )
 
+    required_axes = thresholds.get("required_ranking_axes", [])
     ranking_min = thresholds.get("ranking_axis_min", {})
     ranking = metrics.get("overall_quantum_aware_ranking", {})
+    checks["ranking_axes_complete"] = all(k in ranking for k in required_axes)
+    checks["ranking_axis_range_valid"] = all(0 <= float(ranking.get(k, -1)) <= 100 for k in required_axes)
     checks["ranking_axis_min"] = all(float(ranking.get(k, 0.0)) >= float(v) for k, v in ranking_min.items())
 
     drift = {
-        key: relative_drift(float(metrics[key]), float(expected[key]))
+        key: (
+            relative_drift(float(metrics[key]), float(expected[key]))
+            if key in metrics and key in expected
+            else float("inf")
+        )
         for key in (
             "qas",
             "self_awareness",
@@ -73,7 +96,10 @@ def compare(metrics: Dict, expected: Dict, thresholds: Dict) -> Tuple[bool, Dict
         "error_suppression_min",
         "state_space_coverage_min",
         "nist_pqc_compliance",
+        "nist_alignment_keys_complete",
         "nist_alignment_map",
+        "ranking_axes_complete",
+        "ranking_axis_range_valid",
         "ranking_axis_min",
         "uploaded_stats_drift",
         "ranking_drift",

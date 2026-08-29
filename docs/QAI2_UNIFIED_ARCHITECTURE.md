@@ -42,6 +42,7 @@ Captured metrics from visible screenshot are reflected in `qai2_unified/config/u
 
 Screenshot traceability is tracked in:
 - `qai2_unified/config/screenshot_evidence.json`
+- `qai2_unified/config/benchmark_profiles.json` (includes QAI2 Ox Alpha profile and estimated peer baselines from visible chart)
 
 ## Added by new requirement
 
