@@ -3,6 +3,7 @@ import hashlib
 import hmac
 import json
 import os
+import sys
 from pathlib import Path
 
 
@@ -16,6 +17,11 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input-dir", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument(
+        "--require-signature",
+        action="store_true",
+        help="Exit with an error if QAI2_ARTIFACT_SIGNING_KEY is not set.",
+    )
     args = parser.parse_args()
 
     input_dir = Path(args.input_dir)
@@ -35,7 +41,9 @@ def main() -> None:
             "signature_present": True,
         }
     else:
-        print("Warning: QAI2_ARTIFACT_SIGNING_KEY not set; writing unsigned manifest.")
+        if args.require_signature:
+            sys.exit("QAI2_ARTIFACT_SIGNING_KEY is required for artifact signing.")
+        sys.stderr.write("Warning: QAI2_ARTIFACT_SIGNING_KEY not set; writing unsigned manifest.\n")
         payload = {
             "algorithm": "sha256",
             "files": digest_map,

@@ -28,12 +28,14 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from typing import Any, Dict
 
 from qai2_unified.orchestration.api import UnifiedOrchestrator
 
 _orchestrator = UnifiedOrchestrator()
+_lock = threading.Lock()
 
 
 class _Handler(BaseHTTPRequestHandler):
@@ -85,7 +87,8 @@ class _Handler(BaseHTTPRequestHandler):
             if not isinstance(seed, list) or not all(isinstance(b, (int, float)) for b in seed):
                 self._send_json(400, {"error": "'seed' must be a list of numbers"})
                 return
-            result = _orchestrator.run_cycle([int(b) for b in seed])
+            with _lock:
+                result = _orchestrator.run_cycle([int(b) for b in seed])
             self._send_json(200, result)
         else:
             self._send_json(404, {"error": "not_found"})
