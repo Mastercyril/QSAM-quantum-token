@@ -1,0 +1,56 @@
+name: QAI2 Fallback CI
+
+# Runs the same validation steps as the Copilot-backed release gate but via
+# a standard GitHub Actions runner so that CI is not exclusively blocked by
+# Copilot cloud-agent runtime failures (e.g. HTTP 500 on job-detail fetch).
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "qai2_unified/**"
+      - ".github/workflows/qai2-fallback-ci.yml"
+      - ".github/workflows/qai2-unified-release.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run unit tests
+        run: python -m unittest discover qai2_unified/tests -v
+
+      - name: Generate Ollama artifacts (repo-owned)
+        run: python qai2_unified/distribution/publish_ollama.py
+
+      - name: Generate HF artifacts
+        run: python qai2_unified/distribution/publish_hf.py
+
+      - name: Local launch dry-run
+        # Validates the repo-owned launch path without requiring an external
+        # ollama.com service; uses --dry-run so no daemon is started in CI.
+        run: python qai2_unified/distribution/launch_local.py --dry-run
+
+      - name: Release metrics gate
+        run: python qai2_unified/eval/release_gate.py --metrics qai2_unified/config/current_metrics.json
+
+      - name: Secret scan
+        run: python qai2_unified/ops/secret_scan.py qai2_unified/
+
+      - name: Sign artifact manifest
+        env:
+          QAI2_ARTIFACT_SIGNING_KEY: ${{ secrets.QAI2_ARTIFACT_SIGNING_KEY }}
+        run: |
+          python qai2_unified/ops/sign_artifacts.py \
+            --input-dir qai2_unified/distribution/generated \
+            --output qai2_unified/distribution/generated/artifact-manifest.json
